@@ -1,24 +1,58 @@
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
-    Restaurant restaurant;
-    //REFACTOR ALL THE REPEATED LINES OF CODE
+    static Restaurant restaurant;
+    //Finished - REFACTOR ALL THE REPEATED LINES OF CODE
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
+
+
+    @BeforeAll
+    public static void init_the_restaurant_object() {
+        restaurant = new Restaurant("Taj", "Hyderabad",
+                LocalTime.of(10,30),
+                LocalTime.of(19,30));
+
+    }
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
-        //WRITE UNIT TEST CASE HERE
+        //Finished - WRITE UNIT TEST CASE HERE
+        // Setting time here for afternoon 1:30 that should return True as it is within the Restaurant Timings
+        LocalTime test_time = LocalTime.of(13, 30);
+        // Now we use Mockito to mock the current time to the object we just set above
+        Restaurant test_res = new Mockito().spy(restaurant);
+        // We are returning the mocked test_time object here, so we are faking the local time.
+        Mockito.when(((Restaurant) test_res).getCurrentTime()).thenReturn(test_time);
+        //This should throw no errors as it is expected to return True.
+        System.out.print("Actual Time : ");
+        System.out.println(restaurant.getCurrentTime());
+        System.out.print("Mocked Time : ");
+        System.out.println(test_res.getCurrentTime());
+        assertTrue(test_res.isRestaurantOpen());
     }
 
     @Test
     public void is_restaurant_open_should_return_false_if_time_is_outside_opening_and_closing_time(){
-        //WRITE UNIT TEST CASE HERE
+        //Finished -  WRITE UNIT TEST CASE HERE
+        // Setting time here for afternoon 9.30, that should return False as it is not within the Restaurant Timings
+        LocalTime test_time = LocalTime.of(21, 30);
+        // Now we use Mockito to mock the current time to the object we just set above
+        Restaurant test_res = new Mockito().spy(restaurant);
+        // We are returning the mocked test_time object here, so we are faking the local time.
+        Mockito.when(((Restaurant) test_res).getCurrentTime()).thenReturn(test_time);
+        //This should throw no errors as of now because it should return False as it is expected to return False.
+        System.out.print("Actual Time : ");
+        System.out.println(restaurant.getCurrentTime());
+        System.out.print("Mocked Time : ");
+        System.out.println(test_res.getCurrentTime());
+        assertTrue(test_res.isRestaurantOpen());
 
     }
 

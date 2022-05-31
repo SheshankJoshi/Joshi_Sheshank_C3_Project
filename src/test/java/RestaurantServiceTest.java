@@ -1,4 +1,6 @@
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalTime;
 
@@ -13,15 +15,60 @@ class RestaurantServiceTest {
 
 
     //>>>>>>>>>>>>>>>>>>>>>>SEARCHING<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    @BeforeAll
+    public void create_new_restaurant_object_and_activate_it(){
+        //List <Restaurant> restaurants = new ArrayList<Restaurant>();
+        service.addRestaurant("Oberoi", "Hyderabad",
+                LocalTime.of(9,30),
+                LocalTime.of(20,30)
+                );
+        service.addRestaurant("Taj", "Hyderabad",
+                LocalTime.of(10,30),
+                LocalTime.of(19,30)
+        );
+        service.addRestaurant("Paradise", "Hyderabad",
+                LocalTime.of(10,00),
+                LocalTime.of(21,00)
+        );
+
+    }
     @Test
     public void searching_for_existing_restaurant_should_return_expected_restaurant_object() throws restaurantNotFoundException {
-        //WRITE UNIT TEST CASE HERE
+        //Finished -- WRITE UNIT TEST CASE HERE
+
+        // Create a new Restaurant that is existing for checking
+        restaurant = new Restaurant("Taj", "Hyderabad",
+                LocalTime.of(10,30),
+                LocalTime.of(19,30));
+        Restaurant test_res = Mockito.spy(restaurant); // We are not going to use it in our testing
+        /* The following method should return the restaurant object that is added before all, and hence
+        needs to be initiated properly.
+        */
+        assertEquals(restaurant, service.findRestaurantByName("Taj"));
     }
 
     //You may watch the video by Muthukumaran on how to write exceptions in Course 3: Testing and Version control: Optional content
     @Test
     public void searching_for_non_existing_restaurant_should_throw_exception() throws restaurantNotFoundException {
-        //WRITE UNIT TEST CASE HERE
+        //Finished - WRITE UNIT TEST CASE HERE
+
+        // Creating a new Restaurant object for Checking
+        restaurant = new Restaurant("Barbeque Nation", "Hyderabad",
+                LocalTime.of(10,30),
+                LocalTime.of(19,30));
+        /*We are not going to use the mockito here though we have created it and could have
+         used it to mock the situation to check for the object equality (instead of going for the line before).
+          However the object created is retained*/
+        Restaurant test_res = Mockito.spy(restaurant); //
+        /* Note here that restaurant non existing can be thrown in two ways i.e. by searching for wrong restaurant
+        name, or non-existing restaurant name. Or can be searched using new restaurant object that hasn't been added
+        to the service yet.
+        */
+        /* The following method should return the restaurant object that is added before all, and hence
+        needs to be initiated properly.
+        */
+        assertNotNull(service.findRestaurantByName("Taj")); // This is the pass case
+        assertEquals(restaurant, service.findRestaurantByName("Taj"));
     }
     //<<<<<<<<<<<<<<<<<<<<SEARCHING>>>>>>>>>>>>>>>>>>>>>>>>>>
 
