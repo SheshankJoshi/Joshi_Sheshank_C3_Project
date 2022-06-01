@@ -71,5 +71,18 @@ public class Restaurant {
     public String getName() {
         return name;
     }
+    /*NOTE : Instead of creating a new Exception, I have taken the liberty of using itemNotFound exception to deal with empty menu items*/
+    public boolean checkItemInMenu(Item item) throws itemNotFoundException {
+            assert !menu.isEmpty() : new itemNotFoundException(item.toString());
+        boolean ret_value=false;
+        for (Item i : menu) {
+            if (i.getName()==item.getName()) {
+                ret_value = true;
+            break;}
+        }
+        return ret_value;
+    }
+
+
 
 }
