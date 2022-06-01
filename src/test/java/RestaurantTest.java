@@ -30,6 +30,7 @@ class RestaurantTest {
         Restaurant test_res = new Mockito().spy(restaurant);
         // We are returning the mocked test_time object here, so we are faking the local time.
         Mockito.when(((Restaurant) test_res).getCurrentTime()).thenReturn(test_time);
+        System.out.println("Method 1 :");
         //This should throw no errors as it is expected to return True.
         System.out.print("Actual Time : ");
         System.out.println(restaurant.getCurrentTime());
@@ -48,12 +49,12 @@ class RestaurantTest {
         // We are returning the mocked test_time object here, so we are faking the local time.
         Mockito.when(((Restaurant) test_res).getCurrentTime()).thenReturn(test_time);
         //This should throw no errors as of now because it should return False as it is expected to return False.
+        System.out.println("Method 2 : ");
         System.out.print("Actual Time : ");
         System.out.println(restaurant.getCurrentTime());
         System.out.print("Mocked Time : ");
         System.out.println(test_res.getCurrentTime());
-        assertTrue(test_res.isRestaurantOpen());
-
+        assertFalse(test_res.isRestaurantOpen());
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
